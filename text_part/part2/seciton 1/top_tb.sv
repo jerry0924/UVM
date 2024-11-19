@@ -2,14 +2,15 @@
 `include "uvm_macros.svh"  //这个文件是 UVM 框架中的标准头文件，包含了一组预定义的 UVM 宏（例如 uvm_info、 uvm_error、 uvm_warning` 等）。
 
 import uvm_pkg::*;          //语句使用户能够访问 uvm_pkg 包中定义的所有 UVM 类和方法，而不需要在每次使用它们时都指定完整路径。例如，可以直接使用 uvm_component、uvm_env、uvm_driver 等常见的 UVM 类。
-`include "my_driver.sv"
+`include "my_transaction.sv"
 `include "test.sv"
 `include "my_if.sv"
+`include "my_driver.sv"
 
 module top_tb();
 reg                         clk             ;
 reg                         rst_n           ;
-reg                    	    rx_en           ;
+reg                         rx_en           ;
 reg         [7:0]           rx_data         ;
 wire        [7:0]           tx_data         ;
 wire                        tx_en           ;
@@ -24,7 +25,7 @@ dut my_dut(
 .clk            (   clk                    ),
 .rst_n          (   rst_n                  ),
 .rx_data        (   input_if.data          ),
-.rx_en          (   input_if.vaild         ),
+.rx_en          (   input_if.valid         ),
 .tx_data        (   tx_data                ),
 .tx_en          (   tx_en                  )                 
 );

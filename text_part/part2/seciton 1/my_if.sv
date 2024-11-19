@@ -5,6 +5,6 @@ parameter DATA_WIDTH = 8
     input               rst_n             
 );
     logic   [ DATA_WIDTH-1: 0 ]     data        ;
-    logic                           vaild       ;
+    logic                           valid       ;
 
 endinterface //my_if
