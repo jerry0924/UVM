@@ -2,10 +2,6 @@
 `include "uvm_macros.svh"  //这个文件是 UVM 框架中的标准头文件，包含了一组预定义的 UVM 宏（例如 uvm_info、 uvm_error、 uvm_warning` 等）。
 
 import uvm_pkg::*;          //语句使用户能够访问 uvm_pkg 包中定义的所有 UVM 类和方法，而不需要在每次使用它们时都指定完整路径。例如，可以直接使用 uvm_component、uvm_env、uvm_driver 等常见的 UVM 类。
-`include "my_transaction.sv"
-`include "test.sv"
-`include "my_if.sv"
-`include "my_driver.sv"
 
 module top_tb();
 reg                         clk             ;
@@ -20,14 +16,14 @@ localparam  DATA_WIDTH = 8 ;
 
 //接口例化
 my_if input_if(clk,rst_n);                                                  //这里的例化类比 传统的模块例化（接口例化）
-
+my_if output_if(clk,rst_n);                                                  //这里的例化类比 传统的模块例化（接口例化）
 dut my_dut(
 .clk            (   clk                    ),
 .rst_n          (   rst_n                  ),
 .rx_data        (   input_if.data          ),
 .rx_en          (   input_if.valid         ),
-.tx_data        (   tx_data                ),
-.tx_en          (   tx_en                  )                 
+.tx_data        (   output_if.data         ),
+.tx_en          (   output_if.valid        )                 
 );
 //时钟和复位激励
 initial begin
@@ -44,7 +40,7 @@ initial begin
 end
 //激励调用
 initial begin
-    run_test("my_driver");
+    run_test("my_env");
 end
 //波形产生
 initial begin
@@ -55,7 +51,9 @@ initial begin
 end
 //接口连接
 initial begin
-    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。
+    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.drv","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
+    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.i_mon","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
+    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.o_mon","vif",output_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
 end
 
 endmodule
