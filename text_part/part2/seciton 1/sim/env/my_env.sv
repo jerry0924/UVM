@@ -4,15 +4,15 @@ class my_env extends uvm_env;
         super.new(name,parent);    
     endfunction //new()
   
-    my_driver   drv;
-    my_monitor  i_mon;
-    my_monitor  o_mon;
+    my_agent  i_agt;
+    my_agent  o_agt;
     virtual function void build_phase(uvm_phase  phase);
         super.build_phase(phase);
         `uvm_info("env","build_phase is called",UVM_LOW);
-        drv = my_driver::type_id::create("drv", this);
-        i_mon = my_monitor::type_id::create("i_mon", this);
-        o_mon = my_monitor::type_id::create("o_mon", this);
+        i_agt = my_agent::type_id::create("i_agt", this);
+        o_agt = my_agent::type_id::create("o_agt", this);
+        i_agt.is_active = UVM_ACTIVE;
+        o_agt.is_active = UVM_PASSIVE;
     endfunction	
     
 endclass //className extends superClass

@@ -51,9 +51,9 @@ initial begin
 end
 //接口连接
 initial begin
-    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.drv","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
-    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.i_mon","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
-    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.o_mon","vif",output_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
+    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.i_agt.drv","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
+    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.i_agt.mon","vif",input_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
+    uvm_config_db#(virtual my_if)::set(null,"uvm_test_top.o_agt.mon","vif",output_if);                 //#(virtual my_if)：定义 uvm_config_db 操作的数据类型。这里 my_if 是虚接口类型。 前两个一起合成地址表示送给谁
 end
 
 endmodule
