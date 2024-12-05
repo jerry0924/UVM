@@ -4,4 +4,5 @@
 ./sim/if/my_if.sv
 ./sim/monitor/my_monitor.sv
 ./sim/driver/my_driver.sv
+./sim/agent/my_agent.sv
 ./sim/env/my_env.sv

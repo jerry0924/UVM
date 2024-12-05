@@ -23,8 +23,9 @@ filelist:
 	@find ./sim/transaction 	-name "*.sv" >>filelist.f							# transaction
 	@find ./sim/if 		-name "*.sv" >>filelist.f							# interface
 	@find ./sim/monitor 	-name "*.sv" >>filelist.f							# monitor
-	@find ./sim/driver 	-name "*.sv" >>filelist.f							# interface
-	@find ./sim/env 		-name "*.sv" >>filelist.f							# interface	
+	@find ./sim/driver 	-name "*.sv" >>filelist.f							# driver
+	@find ./sim/agent 	-name "*.sv" >>filelist.f							# agent
+	@find ./sim/env 		-name "*.sv" >>filelist.f							# env	
 #-------------------------------------------------------------------------------------------------------
 all :
 	make clean
