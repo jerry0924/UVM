@@ -18,6 +18,6 @@ function void my_agent::build_phase(uvm_phase  phase);                          
         mon = my_monitor::type_id::create("mon", this);
 endfunction
 function void my_agent::connect_phase(uvm_phase  phase);                             //连接函数                         
-    super.build_phase(phase);
+    super.connect_phase(phase);
         `uvm_info("agent","connect_phase is called",UVM_LOW);
 endfunction
