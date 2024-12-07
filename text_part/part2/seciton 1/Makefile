@@ -25,6 +25,7 @@ filelist:
 	@find ./sim/monitor 	-name "*.sv" >>filelist.f							# monitor
 	@find ./sim/driver 	-name "*.sv" >>filelist.f							# driver
 	@find ./sim/agent 	-name "*.sv" >>filelist.f							# agent
+	@find ./sim/model 	-name "*.sv" >>filelist.f							# model
 	@find ./sim/env 		-name "*.sv" >>filelist.f							# env	
 #-------------------------------------------------------------------------------------------------------
 all :

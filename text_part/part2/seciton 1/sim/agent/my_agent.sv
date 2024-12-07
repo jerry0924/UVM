@@ -1,5 +1,6 @@
 class my_agent extends uvm_agent;
     `uvm_component_utils(my_agent)
+    uvm_analysis_port#( my_transaction )  ap;   
     function new(string name= "my_agent",uvm_component parent = null);
         super.new(name,parent);    
     endfunction //new()
@@ -20,4 +21,5 @@ endfunction
 function void my_agent::connect_phase(uvm_phase  phase);                             //连接函数                         
     super.connect_phase(phase);
         `uvm_info("agent","connect_phase is called",UVM_LOW);
+        ap = mon.ap;
 endfunction

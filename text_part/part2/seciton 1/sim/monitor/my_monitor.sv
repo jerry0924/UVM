@@ -1,4 +1,5 @@
 class my_monitor extends  uvm_monitor;
+    uvm_analysis_port#( my_transaction )  ap;          // //agt_mdl FIFO 写接口 
     function new( string name= "my_monitor",uvm_component parent = null );
         super.new(name,parent);    
     endfunction //new()
@@ -8,6 +9,7 @@ class my_monitor extends  uvm_monitor;
     virtual function void build_phase(uvm_phase  phase);
         super.build_phase(phase);
         `uvm_info("monitor","build_phase is called",UVM_LOW);
+        ap = new("ap",this);
         if(!uvm_config_db#(virtual my_if)::get(this,"","vif",vif)) 
            `uvm_fatal("monitor","interface vif config error!!!!")
     endfunction	
@@ -22,7 +24,8 @@ task my_monitor::main_phase(uvm_phase phase);
 
     for( int i = 0; i<2;i++ ) begin
         tr = new("tr");
-        collect_one_pkt(tr);  	
+        collect_one_pkt(tr);  
+        ap.write(tr);
      end	
      @(posedge vif.clk);                                            //下一个时钟上升沿
 	phase.drop_objection(this);
