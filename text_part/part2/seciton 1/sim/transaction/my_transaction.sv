@@ -17,20 +17,17 @@ class my_transaction extends uvm_sequence_item;
       crc = calc_crc ;
     endfunction
      //实现factory 机制
-    `uvm_object_utils(my_transaction)
+   // `uvm_object_utils(my_transaction)
      //声明函数  包含名字
     function new(string name = "my_transaction");
       super.new(name);
     endfunction //
-
-    function void my_print();
-      $display("dmac = %0h", dmac);
-      $display("smac = %0h", smac);
-      $display("ether_type = %0h", ether_type);
-      for(int i = 0; i < pload.size; i++) begin
-        $display("pload[%0d] = %0h", i, pload[i]);
-      end
-      $display("crc = %0h", crc);
-    endfunction    
+  `uvm_object_utils_begin(my_transaction)
+    `uvm_field_int(dmac,UVM_ALL_ON);                          //整型
+    `uvm_field_int(smac,UVM_ALL_ON);
+    `uvm_field_int(ether_type,UVM_ALL_ON);
+    `uvm_field_array_int(pload,UVM_ALL_ON);                //列表，里面的内容是int
+    `uvm_field_int(crc,UVM_ALL_ON);
+  `uvm_object_utils_end
 endclass //my_transaction extends uvm_sequence_item  
 

@@ -37,35 +37,28 @@ task my_driver::main_phase(uvm_phase phase);                                //�
 endtask
 
 task my_driver::driver_one_pkt(my_transaction tr);
-    byte temp_data[];
-    bit  [7:0]   data_q[$];
+    byte unsigned data_q[];
+    int data_size;
 
-    temp_data  = {tr.dmac,tr.smac,tr.ether_type,tr.pload,tr.crc};
-    //int width = ;
-    //数据预处理 压入至队列
-    //push all
+   data_size = tr.pack_bytes(data_q)/8;                                                                             //pack_bytes 函数，将 transcaction 中定义的变量进行打包
     `uvm_info("my_driver","data pocket is beginning transaction",UVM_LOW);
-    for (int i =0 ;i <=(temp_data.size())  ;i++ ) begin
-        data_q.push_back(temp_data[i]);
-	 //$display("The value of i is: %d", i); 
-	 //$display("The value of r is: %d", temp_data.size()/8); 
-    end
-    //
 
-    while (!vif.rst_n) begin            //在复位时期
+       while (!vif.rst_n) begin            //在复位时期
         vif.valid <= 1'b0;
         vif.data  <= 8'h0;     
 	@(posedge vif.clk);
 
     end
-		
-    while (data_q.size() > 0) begin
+    for (int i =0 ;i <=data_size  ;i++ ) begin
         @(posedge vif.clk);
         vif.valid <= 1'b1;
-        vif.data  <= data_q.pop_front();
-
+        vif.data  <= data_q[i];
+	 //$display("The value of i is: %d", i); 
+	 //$display("The value of r is: %d", temp_data.size()/8); 
     end
+    //
     @(posedge vif.clk);
     vif.valid <= 1'b0;
+    vif.data  <= 8'h0; 
     `uvm_info("my_driver","data pocket transaction end",UVM_LOW);
 endtask
