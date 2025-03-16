@@ -21,6 +21,7 @@ endfunction
 
  function void  my_model::build_phase( uvm_phase phase);    
     super.build_phase(phase);
+      `uvm_info("model","build_phase is called",UVM_LOW);
     port = new("port",this);
     ap = new("ap",this);
  endfunction
@@ -29,10 +30,13 @@ task   my_model::main_phase( uvm_phase phase);
     my_transaction tr;
     my_transaction new_tr;
     super.main_phase(phase);
+    `uvm_info("model","main_phase is called",UVM_LOW);
     while(1)begin
      port.get(tr);                                                                              //从FIFO 拿数据
      new_tr = new("new_tr");
      new_tr.copy(tr);                                                                       //复制
+     `uvm_info("my_model","get one transaction,copy and print it:", UVM_LOW);
+     new_tr.print();
      ap.write(new_tr);                                                                     //写入 FIFO
     end
 endtask

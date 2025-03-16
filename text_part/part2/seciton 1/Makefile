@@ -18,15 +18,19 @@ clean  :
 #-------------------------------------------------------------------------------------------------------
 # filelist update
 filelist:
-	@find ./rtl 		-name "*.sv" >filelist.f								#rtl file
-	@find 			-name "*.sv" | grep -E '/top_tb\.sv$$' >>filelist.f			# top file 
-	@find ./sim/transaction 	-name "*.sv" >>filelist.f							# transaction
-	@find ./sim/if 		-name "*.sv" >>filelist.f							# interface
-	@find ./sim/monitor 	-name "*.sv" >>filelist.f							# monitor
-	@find ./sim/driver 	-name "*.sv" >>filelist.f							# driver
-	@find ./sim/agent 	-name "*.sv" >>filelist.f							# agent
-	@find ./sim/model 	-name "*.sv" >>filelist.f							# model
-	@find ./sim/env 		-name "*.sv" >>filelist.f							# env	
+	@find ./rtl 								 -name "*.sv" >filelist.f													 #rtl file
+	@find 										 -name "*.sv" | grep -E '/top_tb\.sv$$' >>filelist.f			  # top file 
+	@find ./sim/if 							 -name "*.sv" >>filelist.f													 # interface
+	@find ./sim/transaction 			-name "*.sv" >>filelist.f												    # transaction
+
+	@find ./sim/sequence 	           -name "*.sv" >>filelist.f							                       # sequence
+	@find ./sim/sequencer 	           -name "*.sv" >>filelist.f							                       # sequencer		
+	@find ./sim/monitor 	             -name "*.sv" >>filelist.f							                         # monitor
+	@find ./sim/driver         	           -name "*.sv" >>filelist.f							                       # driver
+	@find ./sim/agent 	                  -name "*.sv" >>filelist.f							                          # agent
+	@find ./sim/model 	                 -name "*.sv" >>filelist.f							                         # model
+	@find ./sim/scoreboard 	           -name "*.sv" >>filelist.f							                       # scoreboard
+	@find ./sim/env 		               -name "*.sv" >>filelist.f							                       # env	
 #-------------------------------------------------------------------------------------------------------
 all :
 	make clean

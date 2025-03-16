@@ -1,4 +1,4 @@
-class my_driver extends uvm_driver;      //定义一个类 延申 uvm_driver
+class my_driver extends uvm_driver#(my_transaction);      //定义一个类 延申 uvm_driver
     `uvm_component_utils(my_driver)
     function new(string name= "my_driver",uvm_component parent = null);   //声明了函数  定义了名字 
         super.new(name,parent);                                            //调用基类的构造函数super.new，将name和parent参数传递给基类，以确保基类正确初始化。
@@ -16,24 +16,18 @@ endclass //my_driver extends uvm_driver                                     //  
                                                                             //指这是一个任务，与function不同，它可以包含延时（#）或等待语句
 
 task my_driver::main_phase(uvm_phase phase);                                //说明main_phase是属于my_driver类的任务，是该类的方法实现。   可以传递参数，但不知道这个参数啥意思//在真正的验证平台 //中，这个参数是不需要用户理会的  
-    	my_transaction tr;
-     phase.raise_objection(this);
+        super.main_phase(phase);
     `uvm_info("my_driver","main_phase is called",UVM_LOW);
-    
-   
-    //引入transaction
-    for (int i=0; i<2; i++) begin
-        tr = new("tr");
-        if (!tr.randomize() with { pload.size == 200; }) begin
-  		`uvm_error("RANDOMIZE_FAIL", "Randomization failed")
-	  end
-	 $display("enter i transaction", i);
-        driver_one_pkt(tr);    
-  	 $display("exit i transaction", i);	
-    end
-    $display("for cycle");	
-    @(posedge vif.clk);                                            //下一个时钟上升沿
-      phase.drop_objection(this);
+        while(1)begin
+            seq_item_port.try_next_item(req);                                     //seq_item_port driver 自带接口向sequencer申请transaction
+            if(req != null) begin
+                driver_one_pkt(req);
+                seq_item_port.item_done(req);                                    //握手机制
+            end
+            else begin
+                @(posedge vif.clk);  
+            end
+        end    
 endtask
 
 task my_driver::driver_one_pkt(my_transaction tr);
@@ -53,8 +47,6 @@ task my_driver::driver_one_pkt(my_transaction tr);
         @(posedge vif.clk);
         vif.valid <= 1'b1;
         vif.data  <= data_q[i];
-	 //$display("The value of i is: %d", i); 
-	 //$display("The value of r is: %d", temp_data.size()/8); 
     end
     //
     @(posedge vif.clk);
